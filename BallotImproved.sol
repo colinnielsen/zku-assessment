@@ -19,6 +19,8 @@ contract Ballot {
         uint256 voteCount; // number of accumulated votes
     }
 
+    uint256 public startTime;
+
     address public chairperson;
 
     // This declares a state variable that
@@ -30,6 +32,7 @@ contract Ballot {
 
     /// Create a new ballot to choose one of `proposalNames`.
     constructor(bytes32[] memory proposalNames) {
+        startTime = block.timestamp;
         chairperson = msg.sender;
         voters[chairperson].weight = 1;
 
@@ -42,6 +45,11 @@ contract Ballot {
             // appends it to the end of `proposals`.
             proposals.push(Proposal({name: proposalNames[i], voteCount: 0}));
         }
+    }
+
+    modifier voteEnded() {
+        require(block.timestamp < startTime + 5 minutes, "Voting over");
+        _;
     }
 
     // Give `voter` the right to vote on this ballot.
@@ -107,7 +115,7 @@ contract Ballot {
 
     /// Give your vote (including votes delegated to you)
     /// to proposal `proposals[proposal].name`.
-    function vote(uint256 proposal) external {
+    function vote(uint256 proposal) external voteEnded {
         Voter storage sender = voters[msg.sender];
         require(sender.weight != 0, "Has no right to vote");
         require(!sender.voted, "Already voted.");
