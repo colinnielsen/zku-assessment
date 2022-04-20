@@ -1,0 +1,14 @@
+# Conceptual Knowledge
+
+1. What is a smart contract? How are they deployed?
+    - A smart contract is a piece of code that exists on the blockchain. In the case of Ethereum, it is a type of account - it has a nonce and a balance - but it also has code and storage. A smart contract can only write to it's own storage, but it can expose functions that allow the user to write to the storage of the contract, or perform some action on behalf of the contract.
+    - In the case of Ethereum, a smart contract is deployed by sending its compiled bytecode as a transaction with an empty `to` address.
+2. What is gas? 
+    - Gas is a form of payment for computation time on the blockchain. Put simply, you pay an increasing amount of funds for an increasing amount of computation complexity.
+3. Why is gas optimization such a big focus when building smart contracts?
+    - Gas is actual cash! And depending on the price of the gas token, and the demand for computation (implied by gas cost), interacting with your smart contracts could be pretty expensive. On blockchains that use a gas model for computations, the simpler and more you optimize your programs, the more _actual money_ you save your users.
+4. What is a hash? Why do people use hashing to hide information?
+    - A hash is a function that: given any length input you will receive a unique, fixed length, irreversable output. for example: given input `Colin Nielsen` - - - hash function - - > output: `0x4a116B280`.
+    - Hashing is really useful to hide information because it is irreversable. For example, if I wanted to authenticate a user, I will never store their password, I'll store a _hash_ of a password and compare their hashed input against mine. Since hashes cannot be reversed, it is assumed that only someone who knew the original input can produce the same output twice, hashing can give a mathematical proof for trust.
+5. How would you prove to a colorblind person that two different colored objects are actually of different colors? You could check out Avi Wigderson talk about a similar problem here.
+    - You could setup a test where you are a colorblind person reveals _only_ information about the object's _color_ to a "color seeing" person. For example, you could place both items behind a piece of paper with only a small peephole for both the objects. You've created a context where the colorblind person can create challenges about the _object's position_, and the color seeing person can only answer those challenges based upon the _object's color_. You then perform the challenge between those two parties until it is improbable the prover could prove or fail a challenge consistently without accurate information.
